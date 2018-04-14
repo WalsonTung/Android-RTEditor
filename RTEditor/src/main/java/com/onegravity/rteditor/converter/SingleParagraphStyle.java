@@ -39,7 +39,7 @@ public class SingleParagraphStyle implements ParagraphStyle {
             float margin = Helper.getLeadingMarging();
             float indentation = ((IndentationSpan) mStyle).getValue();
             return Math.round(indentation / margin);
-        } else if (mType.isBullet() || mType.isNumbering()) {
+        } else if (mType.isBullet() || mType.isNumbering() || mType.isTodolist()) {
             return 1;
         }
         return 0;

@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.onegravity.rteditor.effects;
 
 import android.text.Spannable;
 
 import com.onegravity.rteditor.RTEditText;
-import com.onegravity.rteditor.spans.BulletSpan;
 import com.onegravity.rteditor.spans.RTSpan;
+import com.onegravity.rteditor.spans.TodolistSpan;
 import com.onegravity.rteditor.utils.Helper;
 import com.onegravity.rteditor.utils.Paragraph;
 import com.onegravity.rteditor.utils.Selection;
@@ -28,20 +27,12 @@ import com.onegravity.rteditor.utils.Selection;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Bullet points.
- * <p>
- * BulletSpans are always applied to whole paragraphs and each paragraphs gets its "own" BulletSpan (1:1).
- * Editing might violate this rule (deleting a line feed merges two paragraphs).
- * Each call to applyToSelection will make sure that each paragraph has again its own BulletSpan
- * (call applyToSelection(RTEditText, null, null) and all will be good again).
- */
-public class BulletEffect extends ParagraphEffect<Boolean, BulletSpan> {
+public class TodolistEffect extends ParagraphEffect<Boolean,TodolistSpan> {
 
     private ParagraphSpanProcessor<Boolean> mSpans2Process = new ParagraphSpanProcessor();
 
     @Override
-    public synchronized void applyToSelection(RTEditText editor, Selection selectedParagraphs, Boolean enable) {
+    public void applyToSelection(RTEditText editor, Selection selectedParagraphs, Boolean enable) {
         final Spannable str = editor.getText();
 
         mSpans2Process.clear();
@@ -52,28 +43,31 @@ public class BulletEffect extends ParagraphEffect<Boolean, BulletSpan> {
         for (int i = 0, size = paragraphs.size(); i < size; i++) {
             Paragraph paragraph = paragraphs.get(i);
 
-            // find existing BulletSpan and add them to mSpans2Process to be removed
+            // find existing TodolistSpan and add them to mSpans2Process to be removed
             List<RTSpan<Boolean>> existingSpans = getSpans(str, paragraph, SpanCollectMode.SPAN_FLAGS);
             mSpans2Process.removeSpans(existingSpans, paragraph);
 
-            // if the paragraph is selected then we sure have a bullet
+            // if the paragraph is selected then we sure have a checkbox
             boolean hasExistingSpans = !existingSpans.isEmpty();
-            boolean hasBullet = paragraph.isSelected(selectedParagraphs) ? enable : hasExistingSpans;
+            boolean hasTodoList = paragraph.isSelected(selectedParagraphs) ? enable : hasExistingSpans;
 
             // if we have a bullet then apply a new span
-            if (hasBullet) {
+            if (hasTodoList) {
                 int margin = Helper.getLeadingMarging();
-                BulletSpan bulletSpan = new BulletSpan(margin, paragraph.isEmpty(), paragraph.isFirst(), paragraph.isLast());
-                mSpans2Process.addSpan(bulletSpan, paragraph);
-
+                boolean checked = false;
+                if(hasExistingSpans){
+                    checked = existingSpans.get(0).getValue();
+                }
+                TodolistSpan todoListSpan = new TodolistSpan(checked, margin, paragraph.isEmpty(), paragraph.isFirst(), paragraph.isLast());
+                mSpans2Process.addSpan(todoListSpan, paragraph);
                 // if the paragraph has number spans, then remove them
                 Effects.NUMBER.findSpans2Remove(str, paragraph, mSpans2Process);
-                Effects.TODOLIST.findSpans2Remove(str, paragraph, mSpans2Process);
+                // if the paragraph has bullet spans, then remove them
+                Effects.BULLET.findSpans2Remove(str, paragraph, mSpans2Process);
             }
         }
 
         // add or remove spans
         mSpans2Process.process(str);
     }
-
 }

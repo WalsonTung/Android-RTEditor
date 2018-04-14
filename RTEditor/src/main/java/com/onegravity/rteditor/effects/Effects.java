@@ -49,6 +49,7 @@ public class Effects {
     // paragraph effects
     public static final BulletEffect BULLET = new BulletEffect();                                      // boolean effect
     public static final NumberEffect NUMBER = new NumberEffect();                                      // boolean effect
+    public static final TodolistEffect TODOLIST = new TodolistEffect();
     public static final IndentationEffect INDENTATION = new IndentationEffect();                       // non-boolean effect
     public static final AlignmentEffect ALIGNMENT = new AlignmentEffect();                             // non-boolean effect
 
@@ -74,6 +75,7 @@ public class Effects {
         // paragraph effects
         ALL_EFFECTS.add(BULLET);
         ALL_EFFECTS.add(NUMBER);
+        ALL_EFFECTS.add(TODOLIST);
         ALL_EFFECTS.add(INDENTATION);
         ALL_EFFECTS.add(ALIGNMENT);
     }
@@ -100,6 +102,7 @@ public class Effects {
         // paragraph effects
         FORMATTING_EFFECTS.add(BULLET);
         FORMATTING_EFFECTS.add(NUMBER);
+        FORMATTING_EFFECTS.add(TODOLIST);
         FORMATTING_EFFECTS.add(INDENTATION);
         FORMATTING_EFFECTS.add(ALIGNMENT);
     }
@@ -116,6 +119,7 @@ public class Effects {
         cleanupParagraphs(editor, Effects.INDENTATION, exclude);
         cleanupParagraphs(editor, Effects.BULLET, exclude);
         cleanupParagraphs(editor, Effects.NUMBER, exclude);
+        cleanupParagraphs(editor,Effects.TODOLIST,exclude);
     }
 
     private static void cleanupParagraphs(RTEditText editor, ParagraphEffect effect, Effect...exclude) {

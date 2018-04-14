@@ -106,6 +106,7 @@ public class NumberEffect extends ParagraphEffect<Boolean, NumberSpan> {
 
                 // if the paragraph has bullet spans, then remove them
                 Effects.BULLET.findSpans2Remove(str, paragraph, mSpans2Process);
+                Effects.TODOLIST.findSpans2Remove(str, paragraph, mSpans2Process);
             }
 
             lineNr++;

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.SpanWatcher;
 import android.text.Spannable;
@@ -48,6 +49,7 @@ import com.onegravity.rteditor.spans.LinkSpan.LinkSpanListener;
 import com.onegravity.rteditor.spans.MediaSpan;
 import com.onegravity.rteditor.spans.NumberSpan;
 import com.onegravity.rteditor.spans.RTSpan;
+import com.onegravity.rteditor.spans.TodolistSpan;
 import com.onegravity.rteditor.utils.Paragraph;
 import com.onegravity.rteditor.utils.RTLayout;
 import com.onegravity.rteditor.utils.Selection;
@@ -59,7 +61,7 @@ import java.util.Set;
 /**
  * The actual rich text editor (extending android.widget.EditText).
  */
-public class RTEditText extends EditText implements TextWatcher, SpanWatcher, LinkSpanListener {
+public class RTEditText extends AppCompatEditText implements TextWatcher, SpanWatcher, LinkSpanListener {
 
     // don't allow any formatting in text mode
     private boolean mUseRTFormatting = true;
@@ -103,6 +105,7 @@ public class RTEditText extends EditText implements TextWatcher, SpanWatcher, Li
     // This fixes the bug when bullet/number span is not applied to empty string
     private boolean mIsBulletSpanSelected;
     private boolean mIsNumberSpanSelected;
+    private boolean mIsTodolistSpanSelected;
     // The length of text before new char is added
     private int mPreviousTextLength;
 
@@ -436,7 +439,7 @@ public class RTEditText extends EditText implements TextWatcher, SpanWatcher, Li
     @Override
     /* TextWatcher */
     public synchronized void afterTextChanged(Editable s) {
-        if (mIsBulletSpanSelected || mIsNumberSpanSelected) {
+        if (mIsBulletSpanSelected || mIsNumberSpanSelected || mIsTodolistSpanSelected) {
             boolean mBackSpace = mPreviousTextLength >= s.length();
             if (!mBackSpace && s.toString().endsWith("\n")) {
                 // append zero width character
@@ -475,6 +478,13 @@ public class RTEditText extends EditText implements TextWatcher, SpanWatcher, Li
             if (text.toString().isEmpty()) {
                 this.append("\u200B");
             }
+        } else if(what instanceof TodolistSpan){
+            mIsTodolistSpanSelected = true;
+            // if text was empty then append zero width char
+            // in order for the todolist to be shown when the span is selected
+            if (text.toString().isEmpty()) {
+                this.append("\u200B");
+            }
         }
 
         if (what instanceof RTSpan && what instanceof ParagraphStyle) {
@@ -500,6 +510,8 @@ public class RTEditText extends EditText implements TextWatcher, SpanWatcher, Li
             mIsBulletSpanSelected = false;
         } else if (what instanceof NumberSpan) {
             mIsNumberSpanSelected = false;
+        } else if(what instanceof TodolistSpan){
+            mIsTodolistSpanSelected = false;
         }
 
         if (what instanceof RTSpan && what instanceof ParagraphStyle) {

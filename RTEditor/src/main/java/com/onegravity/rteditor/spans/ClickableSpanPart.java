@@ -13,29 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.onegravity.rteditor.spans;
 
-buildscript {
-    ext.kotlin_version = '1.2.21'
+import android.text.Spannable;
+import android.view.MotionEvent;
+import android.widget.TextView;
 
-    repositories {
-        jcenter()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.1'
-
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-allprojects {
-    ext.compileSdkVersion = 27
-    ext.minSdkVersion = 14
-
-    ext.lib_version = '1.6.7'
-
-    repositories {
-        jcenter()
-        google()
-    }
+public interface ClickableSpanPart {
+    void onClick(TextView textView, String pressedText, MotionEvent event, Spannable spannable, int start, int end);
 }

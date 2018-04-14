@@ -23,6 +23,7 @@ import com.onegravity.rteditor.spans.AlignmentSpan;
 import com.onegravity.rteditor.spans.BulletSpan;
 import com.onegravity.rteditor.spans.IndentationSpan;
 import com.onegravity.rteditor.spans.NumberSpan;
+import com.onegravity.rteditor.spans.TodolistSpan;
 
 /*
  * This is a helper class for converting from Spanned to HTML and back.
@@ -35,7 +36,8 @@ public enum ParagraphType {
     BULLET("<ul>", "</ul>", "<li>", "</li>", false, true),
     NUMBERING("<ol>", "</ol>", "<li>", "</li>", false, true),
     INDENTATION_UL("<ul style='list-style-type:none;'>", "</ul>", "<li style='list-style-type:none;'>", "</li>", false, true),
-    INDENTATION_OL("<ol style='list-style-type:none;'>", "</ol>", "<li style='list-style-type:none;'>", "</li>", false, true);
+    INDENTATION_OL("<ol style='list-style-type:none;'>", "</ol>", "<li style='list-style-type:none;'>", "</li>", false, true),
+    TODOLIST("<ul class='simditor-checklist'>", "</ul>", "<li><input type=\"checkbox\">", "</li>", false, true);
 
     public static ParagraphType getInstance(ParagraphStyle style) {
         if (style instanceof AlignmentSpan) {
@@ -44,7 +46,8 @@ public enum ParagraphType {
                    align == Layout.Alignment.ALIGN_CENTER ? ParagraphType.ALIGNMENT_CENTER :
                    ParagraphType.ALIGNMENT_RIGHT;
         } else {
-            return style instanceof BulletSpan ? ParagraphType.BULLET :
+            return style instanceof TodolistSpan ? ParagraphType.TODOLIST :
+                    style instanceof BulletSpan ? ParagraphType.BULLET :
                    style instanceof NumberSpan ? ParagraphType.NUMBERING :
                    style instanceof IndentationSpan ? ParagraphType.INDENTATION_UL : null;
         }
@@ -67,6 +70,7 @@ public enum ParagraphType {
         mEndTagAddsLineBreak = endTagAddsLineBreak;
     }
 
+
     public boolean isUndefined() {
         return this == ParagraphType.NONE;
     }
@@ -81,6 +85,10 @@ public enum ParagraphType {
 
     public boolean isNumbering() {
         return this == ParagraphType.NUMBERING;
+    }
+
+    public boolean isTodolist(){
+        return this == ParagraphType.TODOLIST;
     }
 
     public boolean isIndentation() {
@@ -105,5 +113,9 @@ public enum ParagraphType {
 
     public boolean endTagAddsLineBreak() {
         return mEndTagAddsLineBreak;
+    }
+
+    public String getListStartTagWithCheckedBox(){
+        return "<li checked=\"checked\"><input type=\"checkbox\" checked=\"checked\">";
     }
 }

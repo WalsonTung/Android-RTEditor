@@ -26,6 +26,8 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.URLSpan;
+
+import com.onegravity.rteditor.spans.TodolistSpan;
 import com.onegravity.rteditor.spans.UnderlineSpan;
 
 import com.onegravity.rteditor.api.format.RTFormat;
@@ -118,17 +120,25 @@ public class ConverterSpannedToHtml {
              */
             int newIndent = 0;
             ParagraphType newType = ParagraphType.NONE;
+            SingleParagraphStyle styleInstance = null;
             for (SingleParagraphStyle style : styles) {
                 newIndent += style.getIndentation();
                 ParagraphType type = style.getType();
-                newType = type.isBullet() ? ParagraphType.BULLET :
+                newType = type.isTodolist() ? ParagraphType.TODOLIST :
+                        type.isBullet() ? ParagraphType.BULLET :
                         type.isNumbering() ? ParagraphType.NUMBERING :
                                 type.isIndentation() && newType.isUndefined() ? ParagraphType.INDENTATION_UL : newType;
+                styleInstance = style;
             }
             // process leading margin style
             processLeadingMarginStyle(new AccumulatedParagraphStyle(newType, newIndent, 0));
             // add start list tag
-            mOut.append(newType.getListStartTag());
+            if(newType.isTodolist()  && ((TodolistSpan)styleInstance.getStyle()).getValue()){
+                mOut.append(newType.getListStartTagWithCheckedBox());
+            }else{
+                mOut.append(newType.getListStartTag());
+            }
+
 
             /*
              * start tag: alignment (left, center, right)

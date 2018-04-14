@@ -49,6 +49,7 @@ import com.onegravity.rteditor.spans.NumberSpan;
 import com.onegravity.rteditor.spans.StrikethroughSpan;
 import com.onegravity.rteditor.spans.SubscriptSpan;
 import com.onegravity.rteditor.spans.SuperscriptSpan;
+import com.onegravity.rteditor.spans.TodolistSpan;
 import com.onegravity.rteditor.spans.TypefaceSpan;
 import com.onegravity.rteditor.spans.UnderlineSpan;
 import com.onegravity.rteditor.utils.Helper;
@@ -404,8 +405,9 @@ public class ConverterHtmlToSpanned implements ContentHandler {
      */
     private void startList(boolean isOrderedList, Attributes attributes) {
         boolean isIndentation = isIndentation(attributes);
-
-        ParagraphType newType = isIndentation && isOrderedList ? ParagraphType.INDENTATION_OL :
+        boolean isTodolist = isTodolist(attributes);
+        ParagraphType newType = isTodolist ? ParagraphType.TODOLIST :
+                isIndentation && isOrderedList ? ParagraphType.INDENTATION_OL :
                 isIndentation && !isOrderedList ? ParagraphType.INDENTATION_UL :
                         isOrderedList ? ParagraphType.NUMBERING :
                                 ParagraphType.BULLET;
@@ -435,7 +437,8 @@ public class ConverterHtmlToSpanned implements ContentHandler {
             AccumulatedParagraphStyle style = mParagraphStyles.peek();
             ParagraphType type = style.getType();
 
-            if ((orderedList && (type.isNumbering() || type == ParagraphType.INDENTATION_OL)) ||
+            if (type.isTodolist() ||
+                    (orderedList && (type.isNumbering() || type == ParagraphType.INDENTATION_OL)) ||
                     (!orderedList && (type.isBullet() || type == ParagraphType.INDENTATION_UL))) {
 
                 // the end tag matches the current style
@@ -468,8 +471,10 @@ public class ConverterHtmlToSpanned implements ContentHandler {
             ParagraphType type = currentStyle.getType();
             int indent = currentStyle.getAbsoluteIndent();
             boolean isIndentation = isIndentation(attributes);
-
-            if (type.isIndentation() || isIndentation) {
+            if(type.isTodolist()){
+                boolean checked = isTodolistChecked(attributes);
+                listTag = new TODOLIST(indent,false,checked);
+            } else if (type.isIndentation() || isIndentation) {
                 listTag = new UL(indent, true);
             } else if (type.isNumbering()) {
                 listTag = new OL(indent, false);
@@ -500,8 +505,8 @@ public class ConverterHtmlToSpanned implements ContentHandler {
                 nrOfIndents--;
                 int margin = Helper.getLeadingMarging();
                 // use SPAN_EXCLUSIVE_EXCLUSIVE here, will be replaced later anyway when the cleanup function is called
-                Object span = list instanceof UL ?
-                        new BulletSpan(margin, start == end, false, false) :
+                Object span = list instanceof TODOLIST ? new TodolistSpan(((TODOLIST)list).mChecked,margin,start== end,false,false) :
+                        list instanceof UL ? new BulletSpan(margin, start == end, false, false) :
                         new NumberSpan(1, margin, start == end, false, false);
                 mResult.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -520,6 +525,16 @@ public class ConverterHtmlToSpanned implements ContentHandler {
     private boolean isIndentation(Attributes attributes) {
         String style = attributes.getValue("style");
         return style != null && style.toLowerCase(Locale.US).contains("list-style-type:none");
+    }
+
+    private boolean isTodolist(Attributes attributes){
+        String style = attributes.getValue("class");
+        return style != null && style.toLowerCase(Locale.US).contains("simditor-checklist");
+    }
+
+    private boolean isTodolistChecked(Attributes attributes){
+        String style = attributes.getValue("checked");
+        return style != null && style.toLowerCase(Locale.US).contains("checked");
     }
 
     private boolean checkDuplicateSpan(SpannableStringBuilder text, int where, Class<?> kind) {
@@ -822,6 +837,14 @@ public class ConverterHtmlToSpanned implements ContentHandler {
     private static class OL extends List {
         OL(int nrOfIndents, boolean isIndentation) {
             super(nrOfIndents, isIndentation);
+        }
+    }
+
+    private static class TODOLIST extends List{
+        boolean mChecked = false;
+        TODOLIST(int nrOfIndents, boolean isIndentation,boolean checked) {
+            super(nrOfIndents, isIndentation);
+            mChecked = checked;
         }
     }
 

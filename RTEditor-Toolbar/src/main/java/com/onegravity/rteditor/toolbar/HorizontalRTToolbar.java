@@ -88,6 +88,7 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
     private RTToolbarImageButton mAlignRight;
     private RTToolbarImageButton mBullet;
     private RTToolbarImageButton mNumber;
+    private RTToolbarImageButton mTodolist;
 
     /*
      * The Spinners and their SpinnerAdapters
@@ -149,7 +150,7 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
         mAlignRight = initImageButton(R.id.toolbar_align_right);
         mBullet = initImageButton(R.id.toolbar_bullet);
         mNumber = initImageButton(R.id.toolbar_number);
-
+        mTodolist = initImageButton(R.id.toolbar_todolist);
         initImageButton(R.id.toolbar_inc_indent);
         initImageButton(R.id.toolbar_dec_indent);
         initImageButton(R.id.toolbar_link);
@@ -402,6 +403,10 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
     }
 
     @Override
+    public void setTodolist(boolean enabled){
+        if(mTodolist != null) mTodolist.setChecked(true);
+    }
+    @Override
     public void setAlignment(Layout.Alignment alignment) {
         if (mAlignLeft != null) mAlignLeft.setChecked(alignment == Layout.Alignment.ALIGN_NORMAL);
         if (mAlignCenter != null)
@@ -642,8 +647,9 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
                 mBullet.setChecked(!mBullet.isChecked());
                 boolean isChecked = mBullet.isChecked();
                 mListener.onEffectSelected(Effects.BULLET, isChecked);
-                if (isChecked && mNumber != null) {
-                    mNumber.setChecked(false);    // numbers will be removed by the NumberEffect.applyToSelection
+                if (isChecked) {
+                    if(mNumber != null) mNumber.setChecked(false);    // numbers will be removed by the NumberEffect.applyToSelection
+                    if(mTodolist != null) mTodolist.setChecked(false);
                 }
             }
 
@@ -651,8 +657,24 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
                 mNumber.setChecked(!mNumber.isChecked());
                 boolean isChecked = mNumber.isChecked();
                 mListener.onEffectSelected(Effects.NUMBER, isChecked);
-                if (isChecked && mBullet != null) {
-                    mBullet.setChecked(false);    // bullets will be removed by the BulletEffect.applyToSelection
+                if (isChecked) {
+                    if(mBullet != null) mBullet.setChecked(false);    // bullets will be removed by the BulletEffect.applyToSelection
+                    if(mTodolist != null) mTodolist.setChecked(false);
+                }
+
+            }
+
+            else if(id == R.id.toolbar_todolist){
+                mTodolist.setChecked(!mTodolist.isChecked());
+                boolean isChecked = mTodolist.isChecked();
+                mListener.onEffectSelected(Effects.TODOLIST,isChecked);
+                if(isChecked){
+                    if(mBullet != null){
+                        mBullet.setChecked(false);
+                    }
+                    if(mNumber != null){
+                        mNumber.setChecked(false);
+                    }
                 }
             }
 

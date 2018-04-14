@@ -79,6 +79,8 @@ public interface RTToolbar {
 
     void setNumber(boolean enabled);
 
+    void setTodolist(boolean enabled);
+
     void setAlignment(Layout.Alignment alignment);
 
     void setFont(RTTypeface typeface);

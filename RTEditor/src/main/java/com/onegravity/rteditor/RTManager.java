@@ -51,6 +51,7 @@ import com.onegravity.rteditor.effects.SpanCollectMode;
 import com.onegravity.rteditor.effects.StrikethroughEffect;
 import com.onegravity.rteditor.effects.SubscriptEffect;
 import com.onegravity.rteditor.effects.SuperscriptEffect;
+import com.onegravity.rteditor.effects.TodolistEffect;
 import com.onegravity.rteditor.effects.TypefaceEffect;
 import com.onegravity.rteditor.effects.UnderlineEffect;
 import com.onegravity.rteditor.fonts.RTTypeface;
@@ -580,6 +581,7 @@ public class RTManager implements RTToolbarListener, RTEditTextListener {
         boolean isSubscript = false;
         boolean isBullet = false;
         boolean isNumber = false;
+        boolean isTodolist = false;
         List<Alignment> alignments = null;
         List<RTTypeface> typefaces = null;
         List<Integer> sizes = null;
@@ -605,6 +607,8 @@ public class RTManager implements RTToolbarListener, RTEditTextListener {
                     isBullet = true;
                 } else if (effect instanceof NumberEffect) {
                     isNumber = true;
+                } else if(effect instanceof TodolistEffect){
+                    isTodolist = true;
                 } else if (effect instanceof AlignmentEffect) {
                     alignments = Effects.ALIGNMENT.valuesInSelection(editor);
                 } else if (effect instanceof TypefaceEffect) {
@@ -629,6 +633,7 @@ public class RTManager implements RTToolbarListener, RTEditTextListener {
             toolbar.setSubscript(isSubscript);
             toolbar.setBullet(isBullet);
             toolbar.setNumber(isNumber);
+            toolbar.setTodolist(isTodolist);
 
             // alignment (left, center, right)
             if (alignments != null && alignments.size() == 1) {

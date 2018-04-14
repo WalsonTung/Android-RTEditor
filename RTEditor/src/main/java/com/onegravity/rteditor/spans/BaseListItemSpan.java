@@ -1,8 +1,10 @@
 package com.onegravity.rteditor.spans;
 
 import android.text.Spanned;
+import android.text.style.ClickableSpan;
+import android.view.View;
 
-abstract class BaseListItemSpan {
+abstract class BaseListItemSpan  {
     float determineTextSize(Spanned spanned, int start, int end, float defaultTextSize) {
         // If the text size is different from default use that to determine the indicator size
         // That is determined by finding the first visible character within the list item span
@@ -40,4 +42,5 @@ abstract class BaseListItemSpan {
 
         return true;
     }
+
 }
