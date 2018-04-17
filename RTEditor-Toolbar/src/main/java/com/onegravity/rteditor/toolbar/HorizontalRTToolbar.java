@@ -432,38 +432,38 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
     }
 
     @Override
-    public HorizontalRTToolbar showBold(){
+    public RTToolbar showBold(){
         mBold.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showItalic(){
+    public RTToolbar showItalic(){
         mItalic.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showUnderline(){
+    public RTToolbar showUnderline(){
         mUnderline.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showStrikethrough(){
+    public RTToolbar showStrikethrough(){
         mStrikethrough.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showScript(){
+    public RTToolbar showScript(){
         mSuperscript.setVisibility(View.VISIBLE);
         mSubscript.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showList(){
+    public RTToolbar showList(){
         mBullet.setVisibility(View.VISIBLE);
         mNumber.setVisibility(View.VISIBLE);
         mTodolist.setVisibility(View.VISIBLE);
@@ -471,7 +471,7 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
     }
 
     @Override
-    public HorizontalRTToolbar showAlignment(){
+    public RTToolbar showAlignment(){
         mAlignCenter.setVisibility(View.VISIBLE);
         mAlignLeft.setVisibility(View.VISIBLE);
         mAlignRight.setVisibility(View.VISIBLE);
@@ -480,44 +480,44 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
     }
 
     @Override
-    public HorizontalRTToolbar showFont(){
+    public RTToolbar showFont(){
         mFont.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showFontSize(){
+    public RTToolbar showFontSize(){
         mFontSize.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showFontColor(){
+    public RTToolbar showFontColor(){
         mFontColor.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showBGColor(){
+    public RTToolbar showBGColor(){
         mBGColor.setVisibility(View.VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showIndent(){
+    public RTToolbar showIndent(){
         mIncIndent.setVisibility(VISIBLE);
         mDecIndent.setVisibility(VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showLink(){
+    public RTToolbar showLink(){
         mLink.setVisibility(VISIBLE);
         return this;
     }
 
     @Override
-    public HorizontalRTToolbar showImage(){
+    public RTToolbar showImage(){
         mImage.setVisibility(VISIBLE);
         // enable/disable capture picture depending on whether the device
         // has a camera or not
@@ -531,7 +531,7 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
     }
 
     @Override
-    public HorizontalRTToolbar showAll(){
+    public RTToolbar showAll(){
         if(mBold != null){
             showBold();
             showItalic();
