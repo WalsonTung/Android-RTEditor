@@ -42,8 +42,7 @@ abstract class IntegerEffect<C extends RTSpan<Integer>> extends CharacterEffect<
             if (value != null) {
                 Class[] paramTypes = {int.class};
                 Constructor<? extends RTSpan<Integer>> constructor = mSpanClazz.getDeclaredConstructor(paramTypes);
-                Integer[] params = {value};
-                return constructor.newInstance(params);
+                return constructor.newInstance(value);
             }
         } catch (IllegalAccessException e) {
             Log.e(getClass().getSimpleName(), "Exception instantiating " + mSpanClazz.getSimpleName(), e);
