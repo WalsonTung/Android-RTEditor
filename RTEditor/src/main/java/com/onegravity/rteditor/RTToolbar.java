@@ -100,4 +100,34 @@ public interface RTToolbar {
 
     void removeBGColor();
 
+    RTToolbar showBold();
+
+    RTToolbar showItalic();
+
+    RTToolbar showUnderline();
+
+    RTToolbar showStrikethrough();
+
+    RTToolbar showScript();
+
+    RTToolbar showList();
+
+    RTToolbar showAlignment();
+
+    RTToolbar showFont();
+
+    RTToolbar showFontSize();
+
+    RTToolbar showFontColor();
+
+    RTToolbar showBGColor();
+
+    RTToolbar showIndent();
+
+    RTToolbar showLink();
+
+    RTToolbar showImage();
+
+    RTToolbar showAll();
+
 }

@@ -88,18 +88,21 @@ public class RTEditorActivity extends RTEditorBaseActivity {
         // register toolbar 0 (if it exists)
         RTToolbar rtToolbar0 = findViewById(R.id.rte_toolbar);
         if (rtToolbar0 != null) {
+            rtToolbar0.showAll();
             mRTManager.registerToolbar(toolbarContainer, rtToolbar0);
         }
 
         // register toolbar 1 (if it exists)
         RTToolbar rtToolbar1 = findViewById(R.id.rte_toolbar_character);
         if (rtToolbar1 != null) {
+            rtToolbar1.showAll();
             mRTManager.registerToolbar(toolbarContainer, rtToolbar1);
         }
 
         // register toolbar 2 (if it exists)
         RTToolbar rtToolbar2 = findViewById(R.id.rte_toolbar_paragraph);
         if (rtToolbar2 != null) {
+            rtToolbar2.showAll();
             mRTManager.registerToolbar(toolbarContainer, rtToolbar2);
         }
 

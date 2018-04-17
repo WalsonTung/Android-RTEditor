@@ -19,6 +19,7 @@
 
     <!-- LIGHT THEME -->
     <style name="RTE_ToolbarBaseThemeLight" parent="RTE_BaseThemeLight">
+        <item name="android:actionBarItemBackground">@color/rte_actionBarItemBackground_light</item>
         <item name="rte_ToolbarButton">@style/RTE_ToolbarButton</item>
         <item name="rte_ToolbarSpinner">@style/RTE_ToolbarSpinnerLight</item>
         <item name="rte_ToolbarSpinnerItem">@style/RTE_ToolbarSpinnerItem</item>
@@ -38,7 +39,7 @@
         <item name="rte_icToolbarDecIntent">@drawable/selector_ic_toolbar_dec_indent_light</item>
         <item name="rte_icToolbarBullet">@drawable/selector_ic_toolbar_bullet_light</item>
         <item name="rte_icToolbarNumber">@drawable/selector_ic_toolbar_number_light</item>
-        <item name="rte_icToolbarTodolist">@drawable/checked_checkbox</item>
+        <item name="rte_icToolbarTodolist">@drawable/selector_ic_toolbar_todolist_light</item>
         <item name="rte_icToolbarFont">@drawable/selector_ic_toolbar_font_light</item>
         <item name="rte_icToolbarFontSize">@drawable/selector_ic_toolbar_fontsize_light</item>
         <item name="rte_icToolbarFontColor">@drawable/selector_ic_toolbar_fontcolor_light</item>
@@ -55,6 +56,7 @@
 
     <!-- DARK THEME -->
     <style name="RTE_ToolbarBaseThemeDark" parent="RTE_BaseThemeDark">
+        <item name="android:actionBarItemBackground">@color/rte_actionBarItemBackground_dark</item>
         <item name="rte_ToolbarButton">@style/RTE_ToolbarButton</item>
         <item name="rte_ToolbarSpinner">@style/RTE_ToolbarSpinnerDark</item>
         <item name="rte_ToolbarSpinnerItem">@style/RTE_ToolbarSpinnerItem</item>
@@ -74,7 +76,7 @@
         <item name="rte_icToolbarDecIntent">@drawable/selector_ic_toolbar_dec_indent_dark</item>
         <item name="rte_icToolbarBullet">@drawable/selector_ic_toolbar_bullet_dark</item>
         <item name="rte_icToolbarNumber">@drawable/selector_ic_toolbar_number_dark</item>
-        <item name="rte_icToolbarTodolist">@drawable/checked_checkbox</item>
+        <item name="rte_icToolbarTodolist">@drawable/selector_ic_toolbar_todolist_dark</item>
         <item name="rte_icToolbarFont">@drawable/selector_ic_toolbar_font_dark</item>
         <item name="rte_icToolbarFontSize">@drawable/selector_ic_toolbar_fontsize_dark</item>
         <item name="rte_icToolbarFontColor">@drawable/selector_ic_toolbar_fontcolor_dark</item>

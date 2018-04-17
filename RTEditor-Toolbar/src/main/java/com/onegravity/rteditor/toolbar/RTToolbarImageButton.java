@@ -18,14 +18,14 @@ package com.onegravity.rteditor.toolbar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
-import android.widget.ImageButton;
 
 /**
  * An ImageButton for the toolbar.
  * It adds a checked state.
  */
-public class RTToolbarImageButton extends ImageButton {
+public class RTToolbarImageButton extends AppCompatImageButton {
     private static final int[] CHECKED_STATE_SET = {R.attr.state_checked};
 
     private boolean mChecked;

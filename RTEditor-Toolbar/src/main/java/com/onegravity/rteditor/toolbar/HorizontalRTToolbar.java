@@ -89,6 +89,11 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
     private RTToolbarImageButton mBullet;
     private RTToolbarImageButton mNumber;
     private RTToolbarImageButton mTodolist;
+    private RTToolbarImageButton mIncIndent;
+    private RTToolbarImageButton mDecIndent;
+    private RTToolbarImageButton mLink;
+    private RTToolbarImageButton mImage;
+    private RTToolbarImageButton mImageCapture;
 
     /*
      * The Spinners and their SpinnerAdapters
@@ -151,23 +156,14 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
         mBullet = initImageButton(R.id.toolbar_bullet);
         mNumber = initImageButton(R.id.toolbar_number);
         mTodolist = initImageButton(R.id.toolbar_todolist);
-        initImageButton(R.id.toolbar_inc_indent);
-        initImageButton(R.id.toolbar_dec_indent);
-        initImageButton(R.id.toolbar_link);
-        initImageButton(R.id.toolbar_image);
+        mIncIndent = initImageButton(R.id.toolbar_inc_indent);
+        mDecIndent = initImageButton(R.id.toolbar_dec_indent);
+        mLink = initImageButton(R.id.toolbar_link);
+        mImage = initImageButton(R.id.toolbar_image);
+        mImageCapture = initImageButton(R.id.toolbar_image_capture);
         initImageButton(R.id.toolbar_undo);
         initImageButton(R.id.toolbar_redo);
         initImageButton(R.id.toolbar_clear);
-
-        // enable/disable capture picture depending on whether the device
-        // has a camera or not
-        PackageManager packageMgr = getContext().getPackageManager();
-        if (packageMgr.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            initImageButton(R.id.toolbar_image_capture);
-        } else {
-            View imageCapture = findViewById(R.id.toolbar_image_capture);
-            if (imageCapture != null) imageCapture.setVisibility(View.GONE);
-        }
 
         // configure font button
         mFont = (Spinner) findViewById(R.id.toolbar_font);
@@ -404,7 +400,7 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
 
     @Override
     public void setTodolist(boolean enabled){
-        if(mTodolist != null) mTodolist.setChecked(true);
+        if(mTodolist != null) mTodolist.setChecked(enabled);
     }
     @Override
     public void setAlignment(Layout.Alignment alignment) {
@@ -434,6 +430,130 @@ public class HorizontalRTToolbar extends LinearLayout implements RTToolbar, View
             }
         }
     }
+
+    @Override
+    public HorizontalRTToolbar showBold(){
+        mBold.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showItalic(){
+        mItalic.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showUnderline(){
+        mUnderline.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showStrikethrough(){
+        mStrikethrough.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showScript(){
+        mSuperscript.setVisibility(View.VISIBLE);
+        mSubscript.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showList(){
+        mBullet.setVisibility(View.VISIBLE);
+        mNumber.setVisibility(View.VISIBLE);
+        mTodolist.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showAlignment(){
+        mAlignCenter.setVisibility(View.VISIBLE);
+        mAlignLeft.setVisibility(View.VISIBLE);
+        mAlignRight.setVisibility(View.VISIBLE);
+
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showFont(){
+        mFont.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showFontSize(){
+        mFontSize.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showFontColor(){
+        mFontColor.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showBGColor(){
+        mBGColor.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showIndent(){
+        mIncIndent.setVisibility(VISIBLE);
+        mDecIndent.setVisibility(VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showLink(){
+        mLink.setVisibility(VISIBLE);
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showImage(){
+        mImage.setVisibility(VISIBLE);
+        // enable/disable capture picture depending on whether the device
+        // has a camera or not
+        PackageManager packageMgr = getContext().getPackageManager();
+        if (packageMgr.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            mImageCapture.setVisibility(View.VISIBLE);
+        } else {
+            mImageCapture.setVisibility(View.GONE);
+        }
+        return this;
+    }
+
+    @Override
+    public HorizontalRTToolbar showAll(){
+        if(mBold != null){
+            showBold();
+            showItalic();
+            showStrikethrough();
+            showUnderline();
+            showScript();
+            showFont();
+            showFontColor();
+            showFontSize();
+            showBGColor();
+        }
+        if(mBullet != null){
+            showList();
+            showAlignment();
+            showIndent();
+            showLink();
+            showImage();
+        }
+
+        return this;
+    }
+
 
     /**
      * Set the text size.
