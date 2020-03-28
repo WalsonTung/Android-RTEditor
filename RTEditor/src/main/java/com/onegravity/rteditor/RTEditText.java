@@ -20,7 +20,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.SpanWatcher;
 import android.text.Spannable;
@@ -28,7 +28,6 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ParagraphStyle;
 import android.util.AttributeSet;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.onegravity.rteditor.api.RTMediaFactory;
